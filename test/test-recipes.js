@@ -130,5 +130,24 @@ describe('Recipes', function() {
     });
   
   // Test DELETE method
-  
+  // Strategy:
+  // 1. GET recipes, so we can delete one
+  // 2. DELETE an item and confirm response status
+  it('should delete items on DELETE', function() {
+    return(
+      
+      chai
+        .request(app)
+        // Get ID of object to delete
+        .get('/recipes')
+        .then(function(res){
+          return chai
+            .request(app)
+            .delete(`/recipes/${res.body[0].id}`);
+        })
+        .then(function(res){
+          expect(res).to.have.status(204);
+        })
+    );
+  });
 });
